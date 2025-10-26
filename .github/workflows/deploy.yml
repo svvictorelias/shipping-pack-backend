@@ -1,0 +1,51 @@
+name: Deploy Go App to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+
+      - name: Build application
+        run: |
+          go mod download
+          go build -o packcalc ./cmd/packcalc
+
+      - name: Run tests
+        run: go test ./... -cover
+
+      - name: Run migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          go run ./cmd/migrations
+
+      - name: Copy binary to EC2
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > id_rsa
+          chmod 600 id_rsa
+          scp -o StrictHostKeyChecking=no -i id_rsa packcalc ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/packcalc
+
+      - name: Restart app on EC2
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > id_rsa
+          chmod 600 id_rsa
+          ssh -o StrictHostKeyChecking=no -i id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            set -e
+            echo "🚀 Restarting application..."
+            pkill packcalc || true
+            nohup ./packcalc > app.log 2>&1 &
+            echo "✅ App restarted successfully!"
+          EOF
