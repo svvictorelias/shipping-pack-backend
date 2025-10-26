@@ -36,6 +36,7 @@ jobs:
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > id_rsa
           chmod 600 id_rsa
+          ssh -o StrictHostKeyChecking=no -i id_rsa ec2-user@${{ secrets.EC2_HOST }} 'sudo rm -f /home/ec2-user/packcalc || true'
           scp -o StrictHostKeyChecking=no -i id_rsa packcalc ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/packcalc
 
       - name: Restart app on EC2
