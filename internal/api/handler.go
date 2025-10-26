@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/rs/cors"
 	"github.com/svvictorelias/shipping-pack-backend/internal/service"
 
 	_ "github.com/lib/pq"
@@ -28,7 +29,14 @@ func (s *Server) Routes() http.Handler {
 	mux.HandleFunc("/health", s.health)
 	mux.HandleFunc("/packs", s.packsHandler)
 	mux.HandleFunc("/calculate", s.calculateHandler)
-	return mux
+
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "POST", "OPTIONS"},
+		AllowedHeaders: []string{"Authorization", "Content-Type"},
+	})
+
+	return c.Handler(mux)
 }
 
 func (s *Server) health(w http.ResponseWriter, r *http.Request) {

@@ -8,3 +8,5 @@ require (
 )
 
 require github.com/DATA-DOG/go-sqlmock v1.5.0
+
+require github.com/rs/cors v1.11.1 // indirect
