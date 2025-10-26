@@ -26,11 +26,11 @@ jobs:
       - name: Run tests
         run: go test ./... -cover
 
-      - name: Run migrations
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: |
-          go run ./cmd/migrations
+      # - name: Run migrations
+      #   env:
+      #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      #   run: |
+      #     go run ./cmd/migrations
 
       - name: Copy binary to EC2
         run: |
