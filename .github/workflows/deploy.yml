@@ -36,15 +36,16 @@ jobs:
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > id_rsa
           chmod 600 id_rsa
-          scp -o StrictHostKeyChecking=no -i id_rsa packcalc ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/packcalc
+          scp -o StrictHostKeyChecking=no -i id_rsa packcalc ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/packcalc
 
       - name: Restart app on EC2
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > id_rsa
           chmod 600 id_rsa
-          ssh -o StrictHostKeyChecking=no -i id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
             set -e
             echo "🚀 Restarting application..."
+            cd /home/ec2-user
             pkill packcalc || true
             nohup ./packcalc > app.log 2>&1 &
             echo "✅ App restarted successfully!"
