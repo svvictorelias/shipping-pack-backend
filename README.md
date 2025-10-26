@@ -112,7 +112,7 @@ make run
 
 ## 🧩 API Endpoints (cURL Examples)
 
-### 1) Health Check
+### 0) Health Check
 
 Checks if the service is up.
 
@@ -123,12 +123,15 @@ curl -i http://localhost:8080/health
 **Expected:**
 
 ```json
-{ "status": "ok" }
+{
+  "status": "ok",
+  "ts": "2025-10-26T10:55:45-03:00"
+}
 ```
 
 ---
 
-### 2) List Available Pack Sizes
+### 1) List Available Pack Sizes
 
 Returns all pack sizes used by the optimizer.
 
@@ -144,12 +147,26 @@ curl -i http://localhost:8080/packs
 
 ---
 
+### 2) Update Available Pack Sizes (POST JSON)
+
+```bash
+curl -i -X POST http://localhost:8080/packs   -H "Content-Type: application/json"   -d '{"packs":[250, 500, 1000, 2000, 5000]}'
+```
+
+**Example response:**
+
+```json
+{
+  "ok": true
+}
+```
+
 ### 3) Calculate Optimal Packs (POST JSON)
 
 Computes the minimal oversupply first, then minimal number of packs.
 
 ```bash
-curl -i -X POST http://localhost:8080/calculate   -H "Content-Type: application/json"   -d '{"quantity": 53}'
+curl -i -X POST http://localhost:8080/calculate   -H "Content-Type: application/json"   -d '{"items": 53}'
 ```
 
 **Example response:**
@@ -178,7 +195,7 @@ curl -i -X POST http://localhost:8080/calculate   -H "Content-Type: application/
 If wanna see deployed:
 
 ```bash
-curl -i -X POST https://shipping.fiianalise.com.br/calculate   -H "Content-Type: application/json"   -d '{"quantity": 1250}'
+curl -i -X POST https://shipping.fiianalise.com.br/calculate   -H "Content-Type: application/json"   -d '{"items": 1250}'
 ```
 
 ---
@@ -377,7 +394,10 @@ curl https://shipping.fiianalise.com.br/health
 Response:
 
 ```json
-{ "status": "ok" }
+{
+  "status": "ok",
+  "ts": "2025-10-26T10:55:45-03:00"
+}
 ```
 
 ---
