@@ -17,7 +17,7 @@ It’s a production-ready, cloud-deployed system featuring **CI/CD automation**,
 ### 🌐 Frontend Demo
 
 A public frontend to interact with the API is available here:  
-👉 **[PackCalc Frontend (Vercel)](https://v0-pack-and-calc-api.vercel.app/)**
+👉 **NO MORE AVAILABLE**
 
 This interface allows users to test requests visually, sending quantities and viewing pack results in real-time production.
 
@@ -25,10 +25,7 @@ This interface allows users to test requests visually, sending quantities and vi
 
 ### 🌐 Backend Production
 
-A public backend API is available here:  
-https://shipping.fiianalise.com.br/health
-
-👉 **[PackCalc Backend health-check](https://shipping.fiianalise.com.br/health)**
+👉 **NO MORE AVAILABLE**
 
 This api results in real-time production development.
 
@@ -190,15 +187,6 @@ curl -i -X POST http://localhost:8080/calculate   -H "Content-Type: application/
 
 ---
 
-### 4) Production HTTPS
-
-If wanna see deployed:
-
-```bash
-curl -i -X POST https://shipping.fiianalise.com.br/calculate   -H "Content-Type: application/json"   -d '{"items": 1250}'
-```
-
----
 
 ## 🧰 Makefile — Build, Run, Migrations, and Tests
 
@@ -388,7 +376,7 @@ Features:
 Endpoint:
 
 ```bash
-curl https://shipping.fiianalise.com.br/health
+curl https://HOST/health
 ```
 
 Response:
